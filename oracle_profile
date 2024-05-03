@@ -315,9 +315,6 @@ def main():
         os.environ['ORACLE_HOME'] = oracle_home
     elif 'ORACLE_HOME' in os.environ:
         oracle_home = os.environ['ORACLE_HOME']
-    else:
-        msg = 'ORACLE_HOME variable not set. Please set it and re-run the command'
-        module.fail_json(msg=msg, changed=False)
 
 
     if state == 'present':
