@@ -179,9 +179,9 @@ def main():
     for param in query_result("select name, value, isdefault from v$parameter order by 1"):
       parameter[param['NAME']] = { 'isdefault': param['ISDEFAULT'], 'value': param['VALUE'] }
     # USERENV
-    sql = "SELECT sys_context('USERENV','CURRENT_USER') current_user, sys_context('USERENV','DATABASE_ROLE') database_role, sys_context('USERENV','ISDBA') isdba, sys_context('USERENV','ORACLE_HOME') oracle_home"
+    sql = "SELECT sys_context('USERENV','CURRENT_USER') current_user, sys_context('USERENV','DATABASE_ROLE') database_role, sys_context('USERENV','ISDBA') isdba"
     if conn.version >= '12.1':
-        sql+= ", to_number(sys_context('USERENV','CON_ID')) con_id, sys_context('USERENV','CON_NAME') con_name"
+        sql+= ", sys_context('USERENV','ORACLE_HOME') oracle_home, to_number(sys_context('USERENV','CON_ID')) con_id, sys_context('USERENV','CON_NAME') con_name"
     if conn.version >= '11.1':
         sql+= ", to_number(sys_context('USERENV','CURRENT_EDITION_ID')) CURRENT_EDITION_ID, sys_context('USERENV','CURRENT_EDITION_NAME') CURRENT_EDITION_NAME"
     sql+= " FROM DUAL"
