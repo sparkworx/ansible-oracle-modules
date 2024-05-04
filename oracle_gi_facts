@@ -202,7 +202,7 @@ def get_vips():
     if "network" in vip.keys():
         out[vip['network']] = vip
     return out
-    
+
 def get_scans():
     global srvctl, shorthostname, iscrs
     out = {}
@@ -222,7 +222,7 @@ def get_scans():
     if "network" in item.keys():
         out[item['network']] = item
     return out
-    
+
 # Ansible code
 def main():
     global module, shorthostname, hostname, srvctl, crsctl, cemutlo, iscrs, vips, networks, scans

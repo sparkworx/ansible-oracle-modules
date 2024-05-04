@@ -222,15 +222,15 @@ def main():
         sqlfile = read_file(module, script)
         if len(sqlfile) > 0:
             sqlfile = clean_sqlfile(sqlfile)
-            
+
             if sqlfile.endswith('/') or ('create or replace') in sqlfile.lower():
                 sqldelim = '/'
             else:
                 sqldelim = ';'
-            
+
             sqlfile = sqlfile.strip(sqldelim)
             sql = sqlfile.split(sqldelim)
-            
+
             for q in sql:
                 execute_sql(module, cursor, conn, q)
             msg = 'Finished running script %s \nContents: \n%s' % (script, sqlfile)

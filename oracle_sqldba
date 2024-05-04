@@ -415,7 +415,7 @@ def main():
 
     if pdb_list is not None:
         result = "Run on these PDBs: %s\n" % pdb_list
-        
+
     if sqlselect is not None:
         if sqlselect.endswith(";"):
             sqlselect.rstrip(";")
