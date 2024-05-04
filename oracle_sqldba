@@ -46,7 +46,7 @@ options:
             - If pdb_list is given (implicitely whith all_pdbs) creates_sql is executed in every PDB incl. CDB$ROOT. The pdb_list will be shortened according to the results of creates_sql in the PDBs.
         required: false
         default: None
-    username:
+    user:
         description:
             - Database username, defaults to "/ as sysdba"
         required: false
@@ -128,7 +128,7 @@ db_postinstall:
     sqlscript: "{{ pitask.sqlscript | default(omit) }}"
     catcon_pl: "{{ pitask.catcon_pl | default(omit) }}"
     creates_sql: "{{ pitask.creates_sql | default(omit) }}"
-    username: "{{ pitask.username | default(omit) }}"
+    user: "{{ pitask.username | default(omit) }}"
     password: "{%if pitask.username is defined%}{{ dbpasswords[oradb.oracle_db_name][pitask.username] }}{%endif%}"
     scope: "{{ pitask.scope | default(omit) }}"
     pdb_list: "{{ oracle_pdbs | default([]) | json_query('[?cdb==`' + oradb.oracle_db_name + '`].pdb_name') | join(' ') }}"
@@ -348,7 +348,7 @@ def main():
             catcon_pl      = dict(required = False),
             sqlselect      = dict(required = False),
             creates_sql    = dict(required = False),
-            username       = dict(required = False, aliases = ['un','user']),
+            user           = dict(required = False, aliases = ['un','username']),
             password       = dict(required = False, no_log = True, aliases = ['pw']),
             scope          = dict(required = False, choices = ["default", "db", "cdb", "pdbs", "all_pdbs"], default = 'default'),
             pdb_list       = dict(required = False),
@@ -365,7 +365,7 @@ def main():
     catcon_pl      = module.params["catcon_pl"]
     sqlselect      = module.params["sqlselect"]
     creates_sql    = module.params["creates_sql"]
-    username       = module.params["username"]
+    user           = module.params["user"]
     password       = module.params["password"]
     scope          = module.params["scope"]
     pdb_list       = module.params["pdb_list"]
@@ -420,16 +420,16 @@ def main():
         if sqlselect.endswith(";"):
             sqlselect.rstrip(";")
         sqlselect = "select dbms_xmlgen.getxml('" + sqlselect.replace("'", "''") + "') from dual;"
-        result = run_sql_p(sqlselect, username, password, scope, pdb_list)
+        result = run_sql_p(sqlselect, user, password, scope, pdb_list)
     elif sql is not None:
         sql = os.linesep.join([s for s in sql.splitlines() if s.strip()])
         if not sql.endswith(";") and not sql.endswith("/"):
             sql += ";"
-        result += run_sql_p(sql, username, password, scope, pdb_list)
+        result += run_sql_p(sql, user, password, scope, pdb_list)
     elif sqlscript is not None:
         if not sqlscript.startswith("@"):
             sqlscript = "@" + sqlscript
-        result += run_sql_p(sqlscript, username, password, scope, pdb_list)
+        result += run_sql_p(sqlscript, user, password, scope, pdb_list)
     elif catcon_pl is not None:
         run_catcon_pl(catcon_pl)
 
