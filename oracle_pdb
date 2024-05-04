@@ -354,7 +354,7 @@ def main():
             default_tablespace_type  = dict(default='smallfile',choices = ['smallfile','bigfile']),
             default_tablespace  = dict(required=False),
             default_temp_tablespace  = dict(required=False),
-            timezone			= dict(required=False),
+            timezone               = dict(required=False),
             user                   = dict(required=False, aliases = ['un','username']),
             password               = dict(required=False, no_log=True, aliases = ['pw']),
             mode                   = dict(default="normal", choices = ["sysdba", "normal"]),
