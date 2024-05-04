@@ -348,7 +348,7 @@ def main():
             catcon_pl      = dict(required = False),
             sqlselect      = dict(required = False),
             creates_sql    = dict(required = False),
-            username       = dict(required = False),
+            username       = dict(required = False, aliases = ['un','user']),
             password       = dict(required = False, no_log = True, aliases = ['pw']),
             scope          = dict(required = False, choices = ["default", "db", "cdb", "pdbs", "all_pdbs"], default = 'default'),
             pdb_list       = dict(required = False),
